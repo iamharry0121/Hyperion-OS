@@ -1,0 +1,47 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Hides any weird scrollbars */
+}
+
+#desktop-canvas {
+   width: 100vw;
+   height: 100vh;
+   background-color: black;
+   padding: 20px;
+   box-sizing: border-box;
+   position: absolute;
+
+}  
+
+.os-window {
+   width: 100vw;
+   height: 100vh;
+   background-color: black;
+   padding: 20px;
+   box-sizing: border-box;
+}
+
+#taskbar {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100vw;
+   height: 55px;
+   background-color: rgb(47, 54, 50);
+   z-index: 10;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+#app {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   border: none;
+}
+
+
