@@ -16,12 +16,17 @@ body, html {
 
 }  
 
-.os-window {
-   width: 100vw;
-   height: 100vh;
-   background-color: black;
+.os-window {   
+   position: absolute;
+   top: 10%;           /* Pushes the window down from the top edge */
+   left: 10%;          /* Pushes the window in from the left edge */
+   width: 80vw;        
+   height: 75vh;      
+   background-color: rgb(255, 255, 255);
    padding: 20px;
    box-sizing: border-box;
+   display: none;      /* Kept hidden until JavaScript triggers it */
+   z-index: 5;         /* Sits on top of the desktop, but behind the taskbar */
 }
 
 #taskbar {
@@ -37,7 +42,7 @@ body, html {
    justify-content: center;
 }
 
-#app {
+#taskbar-icon {
    width: 40px;
    height: 40px;
    border-radius: 50%;
