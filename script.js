@@ -1,3 +1,9 @@
+let startX;
+let startY;
+let currentX;
+let currentY;
+
+
 function toggleWindow() {
     let osWindow = document.querySelector('.os-window');
 
@@ -7,4 +13,9 @@ function toggleWindow() {
     } else {
         osWindow.style.display = 'none';
     }
+}
+
+function dragStart(e) {
+    startX = e.clientX
+    startY = e.clientY
 }
