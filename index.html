@@ -11,26 +11,19 @@
             </div>
 
             <div class="os-window">
-
                 <div id="window-header" onmousedown="dragStart(event)">
-
                     <div class="minimize-button">
-                        <button type="button">—</button>
+                        <button type="button" onclick="toggleWindow()">—</button>
                     </div>
-
                     <div class="maximize-button">
                         <button type="button">▢</button>
                     </div>
-
-                    <div class="close-button">
-                        <button type="button">X</button>
+                    <div class="close-button" >
+                        <button type="button" onclick="xOut(event)">X</button>
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-        <script src='script.js' ></script>
+        <script src='script.js'></script>
     </body>
-</html> 
+</html>
