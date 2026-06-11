@@ -4,7 +4,8 @@ let currentX;
 let currentY;
 let activeWindow;
 let osWindow;
-
+let taskbar;
+let fullscreened = false
 
 function toggleWindow() {
     osWindow = document.querySelector('.os-window'); //finds first html element w/ that name and selects it
@@ -59,5 +60,22 @@ function xOut() {
         // True Close: optional reset to center layout position
         osWindow.style.left = '10%';
         osWindow.style.top = '10%';
+    }
+}
+
+function fullscreenToggle() {
+    osWindow = document.querySelector('.os-window');
+    taskbar = document.querySelector('.taskbar')
+
+    if (fullscreened == false) {
+        osWindow.style.width = '100vw'
+        osWindow.style.height = 'calc(100vh - 47px)';
+        osWindow.style.top = '0'
+        osWindow.style.left = '0'
+        fullscreened = true
+    } else {
+        osWindow.style.width = '80vw' 
+        osWindow.style.height = '75vh'
+        fullscreened = false
     }
 }

@@ -17,8 +17,6 @@ body, html {
 
 .os-window {   
     position: absolute;
-    top: 10%;           /* Pushes the window down from the top edge */
-    left: 10%;          /* Pushes the window in from the left edge */
     width: 80vw;        
     height: 75vh;      
     background-color: rgb(255, 255, 255);
