@@ -3,27 +3,29 @@ body, html {
     padding: 0;
     width: 100vw;
     height: 100vh;
-    overflow: hidden; /* Hides any weird scrollbars */
+    overflow: hidden;
 }
 
 #desktop-canvas {
     width: 100vw;
     height: 100vh;
     background-color: rgb(148, 148, 148);
-    padding: 20px;
-    box-sizing: border-box;
-    position: absolute;
+    position: relative; /* changed to relative so children position correctly */
 }  
 
 .os-window {   
     position: absolute;
-    width: 80vw;        
-    height: 75vh;      
+    width: 400px; /* using a fixed width/height so it looks like a real app window */
+    height: 300px;      
     background-color: rgb(255, 255, 255);
-    padding: 20px;
     box-sizing: border-box;
-    display: none;      /* Kept hidden until JavaScript triggers it */
-    z-index: 5;         /* Sits on top of the desktop, but behind the taskbar */
+    display: none;      
+    z-index: 5;         
+    border: 1px solid #333;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    overflow: hidden; /* prevents app content from spilling out of the rounded corners */
+    display: flex;
+    flex-direction: column; /* stacks the header on top of the content area */
 }
 
 #taskbar {
@@ -36,25 +38,46 @@ body, html {
     z-index: 10;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* keeps icons lined up on the left side like Windows/Mac */
+    padding-left: 10px;
+    box-sizing: border-box;
 }
 
-#taskbar-icon {
-    width: 30px;
+.taskbar-icon {
     height: 30px;
-    border-radius: 50%;
-    border: none;
+    margin-right: 10px;
+    background-color: #555;
+    color: white;
+    border: 1px solid #777;
+    cursor: pointer;
+    padding: 0 10px;
 }
 
-#window-header {
-    top: 0;
-    left: 0;
+/* FIX: Cleaned up Header layout */
+.window-header {
     width: 100%;
-    height: 30px;
-    background-color: black;
-    position: absolute;
+    height: 35px;
+    background-color: #222;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between; /* pushes Title to left, Controls to right */
+    align-items: center; /* vertically centers everything */
+    padding-left: 10px;
+    box-sizing: border-box;
+    cursor: move; /* shows the user they can drag it */
+    user-select: none; /* prevents highlighting text while dragging */
+}
+
+/* FIX: Styled title text so it's visible */
+.window-title {
+    color: white;
+    font-family: sans-serif;
+    font-size: 14px;
+}
+
+/* FIX: Keeps the buttons wrapper aligned */
+.window-controls {
+    display: flex;
+    height: 100%;
 }
 
 /* os-window buttons */
@@ -62,10 +85,15 @@ body, html {
 .maximize-button button, 
 .close-button button {
     width: 45px;
-    height: 30px;
-    background-color: rgb(0, 0, 0);
+    height: 100%; /* matches the header height perfectly */
+    background-color: transparent;
     border: none;
     color: white;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* shared hover styles for minimize and maximize */
@@ -77,4 +105,12 @@ body, html {
 /* red hover style for close */
 .close-button button:hover {
     background-color: rgb(255, 0, 0);
+}
+
+/* the area where the actual calculator or notes app elements live */
+.window-content {
+    flex-grow: 1; /* automatically takes up the rest of the window space below header */
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: white;
 }

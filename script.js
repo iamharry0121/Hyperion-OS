@@ -2,17 +2,30 @@ let startX;
 let startY;
 let currentX;
 let currentY;
-let activeWindow;
+let activeWindow = null;
+let highestZIndex = 10;
 let osWindow;
 let taskbar;
 let fullscreened = false
 
-function toggleWindow() {
-    osWindow = document.querySelector('.os-window'); //finds first html element w/ that name and selects it
+function toggleWindow(e) {
+    let osWindow;
+    
+    if (e.target.dataset.app) {
+        let appName = e.target.dataset.app;
+        osWindow = document.querySelector('.os-window[data-window-type="' + appName + '"]'); //hunts down the hidden window by matching its data attribute string
+    } else {
+        osWindow = e.target.closest('.os-window'); //fallback for when u click inside the window header to hide it
+    }
+    
+    if (!osWindow) return; //stops function immediately if click happened outside a shortcut or window
+
+    highestZIndex++; //boosts the layer counter by 1
+    osWindow.style.zIndex = highestZIndex; //forces the toggled window straight to the front layer
 
     // Check if it's empty OR if it's set to 'none'
     if (osWindow.style.display === '' || osWindow.style.display === 'none') {
-        osWindow.style.display = 'block'; //basically js unhides the window
+        osWindow.style.display = 'flex'; //basically js unhides the window
     } else {
         osWindow.style.display = 'none'; //hides the window
     }
@@ -24,6 +37,14 @@ function dragStart(e) {
         }
 
     activeWindow = e.target.closest('.os-window');
+
+    if (activeWindow == null) {
+        return;
+    }
+
+    highestZIndex++; //boosts the layer counter by 1
+    activeWindow.style.zIndex = highestZIndex; //forces the dragged window straight to the front layer
+
     startX = e.clientX //gets starting x
     startY = e.clientY //gets starting y
     document.addEventListener('mousemove', dragMove) //event listener for the dragging
@@ -52,19 +73,19 @@ function dragEnd() {
     activeWindow = null;
 }
 
-function xOut() {
-    osWindow = document.querySelector('.os-window');
+function xOut(e) {
+    osWindow = e.target.closest('.os-window');
     if (osWindow) {
         osWindow.style.display = 'none';
         
-        // True Close: optional reset to center layout position
+        // true close: optional reset to center layout position
         osWindow.style.left = '10%';
         osWindow.style.top = '10%';
     }
 }
 
-function fullscreenToggle() {
-    osWindow = document.querySelector('.os-window');
+function fullscreenToggle(e) {
+    osWindow = e.target.closest('.os-window');
     taskbar = document.querySelector('.taskbar')
 
     if (fullscreened == false) {
@@ -74,8 +95,18 @@ function fullscreenToggle() {
         osWindow.style.left = '0'
         fullscreened = true
     } else {
-        osWindow.style.width = '80vw' 
-        osWindow.style.height = '75vh'
+        osWindow.style.width = '400px' 
+        osWindow.style.height = '300px'
         fullscreened = false
     }
 }
+
+// listens for any mouse click on the webpage to manage window overlapping depth
+document.addEventListener('mousedown', function(e) {
+    let clickedWindow = e.target.closest('.os-window'); // checks if the clicked item is inside an app window
+    
+    if (clickedWindow) {
+        highestZIndex++; // boosts the layer counter by 1
+        clickedWindow.style.zIndex = highestZIndex; // forces the clicked window straight to the front layer
+    }
+});
