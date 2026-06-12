@@ -40,7 +40,7 @@ To run this project locally on your machine without compilation utilities:
 Clone the repository:
 
 Bash
-git clone https://github.com/your-username/your-repo-name.git
+git clone https://github.com/your-username/hyperion-os.git
 Navigate to the directory:
 
 Bash
