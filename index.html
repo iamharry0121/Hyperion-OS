@@ -1,54 +1,74 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <title>HyperionOS</title>
     </head>
     <body>
         <div id="desktop-canvas">
             
             <div id="taskbar">
-                <button type="button" class="taskbar-icon" onclick="toggleWindow(event)" data-app="calculator">Calc</button>
-                <button type="button" class="taskbar-icon" onclick="toggleWindow(event)" data-app="text-editor">Notes</button>
-            </div>
-
-            <div class="os-window" data-window-type="calculator">
-                <div class="window-header" onmousedown="dragStart(event)">
-                    <div class="window-title">Calculator</div>
-                    <div class="window-controls">
-                        <div class="minimize-button">
-                            <button type="button" onclick="toggleWindow(event)">—</button>
-                        </div>
-                        <div class="maximize-button">
-                            <button type="button" onclick="fullscreenToggle(event)">▢</button>
-                        </div>
-                        <div class="close-button">
-                            <button type="button" onclick="xOut(event)">X</button>
-                        </div>
-                    </div>
+                <button type="button" class="taskbar-icon" onclick="toggleWindow(event)" data-app="text-editor"><i class="fa-solid fa-file-lines"></i></button>
+                <button type="button" class="taskbar-icon" onclick="toggleWindow(event)" data-app="file-explorer"><i class="fa-solid fa-folder-open"></i></button>
+                <button type="button" class="taskbar-icon" onclick="toggleWindow(event)" data-app="sys-settings"><i class="fa-solid fa-gear"></i></button>
+                
+                <div id="taskbar-clock">
+                    <div id="clock-time">--:--</div>
+                    <div id="clock-date">--- --, ----</div>
                 </div>
-                <div class="window-content"></div>
             </div>
 
-            <div class="os-window" data-window-type="text-editor" style="left: 20%; top: 20%;">
+            <div class="os-window" data-window-type="text-editor" style="left: 15%; top: 15%;">
                 <div class="window-header" onmousedown="dragStart(event)">
                     <div class="window-title">Text Editor</div>
                     <div class="window-controls">
-                        <div class="minimize-button">
-                            <button type="button" onclick="toggleWindow(event)">—</button>
-                        </div>
-                        <div class="maximize-button">
-                            <button type="button" onclick="fullscreenToggle(event)">▢</button>
-                        </div>
-                        <div class="close-button">
-                            <button type="button" onclick="xOut(event)">X</button>
-                        </div>
+                        <div class="minimize-button"><button type="button" onclick="toggleWindow(event)"><i class="fa-solid fa-minus"></i></button></div>
+                        <div class="maximize-button"><button type="button" onclick="fullscreenToggle(event)"><i class="fa-regular fa-square"></i></button></div>
+                        <div class="close-button"><button type="button" onclick="xOut(event)"><i class="fa-solid fa-xmark"></i></button></div>
                     </div>
                 </div>
-                <div class="window-content"></div>
+                <div class="window-content">
+                    <textarea id="notes-textarea" placeholder="Start typing..."></textarea>
+                </div>
+            </div>
+
+            <div class="os-window" data-window-type="file-explorer" style="left: 25%; top: 20%;">
+                <div class="window-header" onmousedown="dragStart(event)">
+                    <div class="window-title">File Explorer</div>
+                    <div class="window-controls">
+                        <div class="minimize-button"><button type="button" onclick="toggleWindow(event)"><i class="fa-solid fa-minus"></i></button></div>
+                        <div class="maximize-button"><button type="button" onclick="fullscreenToggle(event)"><i class="fa-regular fa-square"></i></button></div>
+                        <div class="close-button"><button type="button" onclick="xOut(event)"><i class="fa-solid fa-xmark"></i></button></div>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div class="explorer-toolbar">
+                        <input type="file" id="real-file-upload" onchange="handleFileUpload(event)" style="display: none;">
+                        <button type="button" class="explorer-btn" onclick="document.getElementById('real-file-upload').click()">Upload File</button>
+                    </div>
+                    <div id="file-list"></div>
+                </div>
+            </div>
+
+            <div class="os-window" data-window-type="sys-settings" style="left: 35%; top: 25%;">
+                <div class="window-header" onmousedown="dragStart(event)">
+                    <div class="window-title">System Settings</div>
+                    <div class="window-controls">
+                        <div class="minimize-button"><button type="button" onclick="toggleWindow(event)"><i class="fa-solid fa-minus"></i></button></div>
+                        <div class="maximize-button"><button type="button" onclick="fullscreenToggle(event)"><i class="fa-regular fa-square"></i></button></div>
+                        <div class="close-button"><button type="button" onclick="xOut(event)"><i class="fa-solid fa-xmark"></i></button></div>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <div style="font-size: 11px; letter-spacing: 2px; margin-bottom: 14px; font-weight: bold; text-transform: uppercase; color: var(--text-color);">◆ System Interface Mode</div>
+                    <button type="button" class="explorer-btn" onclick="setInterfaceMode('light')">Light Mode</button>
+                    <button type="button" class="explorer-btn" onclick="setInterfaceMode('dark')">Dark Mode</button>
+                </div>
             </div>
 
         </div>
-        <script src='script.js'></script>
+        <script src="script.js"></script>
     </body>
 </html>

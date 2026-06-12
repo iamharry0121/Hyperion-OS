@@ -1,31 +1,114 @@
+/* --- GLOBAL SYSTEM DEFINITIONS (DEFAULT TO LIGHT MODE) --- */
+:root {
+    --window-bg: rgba(255, 255, 255, 0.45);   /* Frosted tint for glass panels */
+    --window-border: rgba(255, 255, 255, 0.6); /* Clear glass rim borders */
+    --text-color: #1a2a3a;                    /* Dark text for visibility */
+    --accent-ui: #0088ff;                     /* Focus color for buttons/headers */
+    --header-bg: rgba(255, 255, 255, 0.4);    /* Upper bar tint */
+    --input-bg: rgba(255, 255, 255, 0.5);     /* Inner textarea fill */
+}
+
 body, html {
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #000000;                /* Match your black wallpaper layer */
 }
 
 #desktop-canvas {
     width: 100vw;
     height: 100vh;
-    background-color: rgb(148, 148, 148);
-    position: relative; /* changed to relative so children position correctly */
+    background-image: url('assets/default_background.jpg'); 
+    background-size: cover;          
+    background-position: center;     
+    background-repeat: no-repeat;
+    position: relative;
 }  
 
+/* --- FROSTED GLASS WINDOW CONTAINER --- */
 .os-window {   
-    position: absolute;
-    width: 400px; /* using a fixed width/height so it looks like a real app window */
-    height: 300px;      
-    background-color: rgb(255, 255, 255);
-    box-sizing: border-box;
+    position: absolute;              
+    width: 450px; 
+    height: 350px;      
+    box-sizing: border-box;          
     display: none;      
     z-index: 5;         
-    border: 1px solid #333;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    overflow: hidden; /* prevents app content from spilling out of the rounded corners */
+    border: 1px solid var(--window-border); 
+    overflow: hidden; 
     display: flex;
-    flex-direction: column; /* stacks the header on top of the content area */
+    flex-direction: column;
+    
+    /* GLASSMORPHISM ENGINE */
+    background-color: var(--window-bg); 
+    backdrop-filter: blur(16px);     
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2); 
+    border-radius: 8px;
+}
+
+/* --- WINDOW HEADER --- */
+.window-header {
+    width: 100%;
+    height: 34px;
+    background-color: var(--header-bg); 
+    border-bottom: 1px solid var(--window-border);
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding-left: 12px;
+    box-sizing: border-box;
+    cursor: move; 
+    user-select: none;               
+}
+
+.window-title {
+    color: var(--text-color);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.window-controls {
+    display: flex;
+    height: 100%;
+}
+
+/* --- CONTROL ACTION BUTTONS --- */
+.minimize-button button, 
+.maximize-button button, 
+.close-button button {
+    width: 40px;
+    height: 100%; 
+    background-color: transparent;
+    border: none;
+    border-left: 1px solid var(--window-border);
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.minimize-button button:hover, 
+.maximize-button button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.close-button button:hover {
+    background-color: #ff3b30; 
+    color: #ffffff;
+}
+
+/* --- WINDOW INTERNAL WORKSPACE --- */
+.window-content {
+    flex-grow: 1;                    
+    padding: 12px;
+    box-sizing: border-box;
+    color: var(--text-color);
 }
 
 #taskbar {
@@ -33,84 +116,97 @@ body, html {
     bottom: 0;
     left: 0;
     width: 100vw;
-    height: 47px;
-    background-color: rgb(41, 41, 41);
-    z-index: 10;
+    height: 50px;
+    z-index: 10;                     
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* keeps icons lined up on the left side like Windows/Mac */
-    padding-left: 10px;
+    
+    /* Forces the icon group to center perfectly */
+    justify-content: center; 
+    
     box-sizing: border-box;
+    border-top: 1px solid var(--window-border);
+    background-color: var(--window-bg);
+    backdrop-filter: blur(20px);
 }
 
+/* --- ROUNDED ICON FRAMES --- */
 .taskbar-icon {
-    height: 30px;
-    margin-right: 10px;
-    background-color: #555;
-    color: white;
-    border: 1px solid #777;
-    cursor: pointer;
-    padding: 0 10px;
-}
-
-/* FIX: Cleaned up Header layout */
-.window-header {
-    width: 100%;
-    height: 35px;
-    background-color: #222;
-    display: flex;
-    justify-content: space-between; /* pushes Title to left, Controls to right */
-    align-items: center; /* vertically centers everything */
-    padding-left: 10px;
-    box-sizing: border-box;
-    cursor: move; /* shows the user they can drag it */
-    user-select: none; /* prevents highlighting text while dragging */
-}
-
-/* FIX: Styled title text so it's visible */
-.window-title {
-    color: white;
-    font-family: sans-serif;
+    width: 36px; 
+    height: 32px;
+    margin: 0 4px; /* perfectly even spacing on both sides */
+    background-color: var(--header-bg);
+    color: var(--text-color);
+    border: 1px solid var(--window-border);
     font-size: 14px;
-}
-
-/* FIX: Keeps the buttons wrapper aligned */
-.window-controls {
-    display: flex;
-    height: 100%;
-}
-
-/* os-window buttons */
-.minimize-button button, 
-.maximize-button button, 
-.close-button button {
-    width: 45px;
-    height: 100%; /* matches the header height perfectly */
-    background-color: transparent;
-    border: none;
-    color: white;
     cursor: pointer;
-    font-size: 14px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
+    border-radius: 8px;              
 }
 
-/* shared hover styles for minimize and maximize */
-.minimize-button button:hover, 
-.maximize-button button:hover {
-    background-color: rgb(112, 112, 112);
+/* --- TASKBAR TIME MODULE --- */
+#taskbar-clock {
+    /* Pin the clock to the right side so it doesn't mess with the centered icons */
+    position: absolute;
+    right: 20px;
+    
+    text-align: right;
+    font-family: 'Courier New', Courier, monospace;
+    user-select: none;
 }
 
-/* red hover style for close */
-.close-button button:hover {
-    background-color: rgb(255, 0, 0);
+#clock-time {
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-color);
 }
 
-/* the area where the actual calculator or notes app elements live */
-.window-content {
-    flex-grow: 1; /* automatically takes up the rest of the window space below header */
-    padding: 15px;
+#clock-date {
+    font-size: 10px;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* --- INTERACTIVE COMPONENTS --- */
+.explorer-toolbar {
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--window-border);
+    margin-bottom: 12px;
+}
+
+.explorer-btn {
+    background-color: var(--header-bg);
+    border: 1px solid var(--window-border);
+    color: var(--text-color);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    padding: 4px 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 4px;
+}
+
+.explorer-btn:hover {
+    background-color: var(--text-color);
+    color: var(--input-bg);
+}
+
+.file-icon-wrapper:hover {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+#notes-textarea {
+    width: 100%;
+    height: 100%;
+    border: none;
+    resize: none;                    
+    outline: none;                   
+    font-family: 'Courier New', Courier, monospace;
     box-sizing: border-box;
-    background-color: white;
+    background-color: var(--input-bg); 
+    color: var(--text-color);
+    padding: 10px;
+    border: 1px solid var(--window-border);
 }
